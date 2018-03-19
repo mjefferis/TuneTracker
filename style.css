@@ -1,0 +1,71 @@
+#jumbotrontext{
+    text-align:center;
+    font-family: 'VT323';
+    font-size: 22px;
+    color:lightseagreen;
+   
+}
+.jumbotron{
+    text-align:center;
+    font-family: 'Monofett';
+    font-size: 30px;
+    color:skyblue;
+    background-image: url("Images/round.png");
+}
+#upload, #formy{
+    float: right;
+    margin-right:50%;
+}
+
+.alert{
+    text-align:center;
+}
+
+.text-center{
+    display:inline;
+    text-align:center;
+}
+
+body{
+    background-color:lightgrey;
+}
+
+.radar{
+    height:100px;
+    width:100px;
+    margin-bottom:18px;
+}
+
+.btn, #upload{
+    font-family: 'VT323';
+    background-color:lightseagreen;
+    padding:5px 5px 5px 5px;
+    font-size:20px;
+    margin-left:15px;
+    border-style: groove;
+    border-width: 4px;
+    border-color:black;
+}
+
+.btn:hover, #upload:hover{
+    opacity:50%;
+    background-color:seagreen;
+    text-shadow: -1px 0 black, 0 1px black, 1px 0 black, 0 -1px black;
+
+}
+
+.btn:active, #upload:active{
+    opacity:50%;
+    font-weight:bold;
+    background-color:seagreen;
+}
+
+form{
+    background-color:skyblue;
+    font:'helvetica';
+    padding:10px 10px 10px 10px;
+    border-style:solid;
+    border-width: 4px;
+    border-color:black;
+}
+
