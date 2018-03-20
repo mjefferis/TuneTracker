@@ -9,8 +9,8 @@ $(".jumbotron").velocity("fadeIn", { duration: 1500 })
 //more velocity js
 $("#upload").velocity({ translateY: 125 }, {
     duration: 2250,
-    easing: [ 300, 8 ]
-  });
+    easing: [300, 8]
+});
 
 // Initialize Firebase
 var config = {
@@ -20,8 +20,8 @@ var config = {
     projectId: "tunetracker-2260d",
     storageBucket: "tunetracker-2260d.appspot.com",
     messagingSenderId: "474472193819"
-  };
-  
+};
+
 firebase.initializeApp(config);
 
 var database = firebase.database();
@@ -39,7 +39,7 @@ $('#upload').on('click', function (event) {
 
 $("#submit").on("click", function (event) {
 
-     event.preventDefault();
+    event.preventDefault();
 
     var name = $("#user-name").val().trim();
     var contact = $("#user-contact").val().trim();
