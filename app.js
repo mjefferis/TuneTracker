@@ -3,7 +3,6 @@ $('#formy').hide();
 $('#successform').hide();
 $('#emptyform').hide();
 
-
 //this is an example of velocity.js this website is a good tutorial: http://www.independent-software.com/velocity-js-tutorial-accelerated-javascript-animation/
 $(".jumbotron").velocity("fadeIn", { duration: 1500 })
 
@@ -12,10 +11,6 @@ $("#upload").velocity({ translateY: 125 }, {
     duration: 2250,
     easing: [ 300, 8 ]
   });
-
-
-
-
 
 // Initialize Firebase
 var config = {
@@ -38,7 +33,6 @@ $('#upload').on('click', function (event) {
     event.preventDefault();
     $('#formy').show();
     $('#upload').hide();
-
 });
 
 
