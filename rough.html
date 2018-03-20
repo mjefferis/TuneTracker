@@ -1,7 +1,7 @@
-
-
 <!DOCTYPE html>
+
 <html>
+
 <head>
     <meta charset='utf-8' />
     <title>Display map navigation controls</title>
@@ -9,26 +9,27 @@
     <script src='https://api.tiles.mapbox.com/mapbox-gl-js/v0.44.1/mapbox-gl.js'></script>
     <link href='https://api.tiles.mapbox.com/mapbox-gl-js/v0.44.1/mapbox-gl.css' rel='stylesheet' />
     <style>
-        body { margin:0; padding:0; }
-        #map { position:absolute; top:0; bottom:0; height: 50%; width:50%; }
+        body {
+            margin: 0;
+            padding: 0;
+        }
+
+        #map {
+            position: absolute;
+            top: 0;
+            bottom: 0;
+            height: 50%;
+            width: 50%;
+        }
     </style>
 </head>
+
 <body>
 
-<div id='map'></div>
-<script>
-mapboxgl.accessToken = 'pk.eyJ1Ijoia2hhbGlsb3dlbnM5MiIsImEiOiJjamV2bDR0aXQ3NDdrMzlvNzFjbGw1MHI4In0.Rj8983ke7W9GO3QnOLJg8A';
-var map = new mapboxgl.Map({
-    container: 'map', // container id
-    style: 'mapbox://styles/mapbox/streets-v9',
-    center: [-74.50, 40], // starting position
-    zoom: 9 // starting zoom
-});
+    <div id='map'></div>
 
-// Add zoom and rotation controls to the map.
-map.addControl(new mapboxgl.NavigationControl());
-</script>
-<script>
+
+    <script>
         mapboxgl.accessToken = 'pk.eyJ1Ijoia2hhbGlsb3dlbnM5MiIsImEiOiJjamV2bDR0aXQ3NDdrMzlvNzFjbGw1MHI4In0.Rj8983ke7W9GO3QnOLJg8A';
         var map = new mapboxgl.Map({
             style: 'mapbox://styles/mapbox/light-v9',
@@ -39,13 +40,13 @@ map.addControl(new mapboxgl.NavigationControl());
             hash: true,
             container: 'map'
         });
-        
+
         // The 'building' layer in the mapbox-streets vector source contains building-height
         // data from OpenStreetMap.
-        map.on('load', function() {
+        map.on('load', function () {
             // Insert the layer beneath any symbol layer.
             var layers = map.getStyle().layers;
-        
+
             var labelLayerId;
             for (var i = 0; i < layers.length; i++) {
                 if (layers[i].type === 'symbol' && layers[i].layout['text-field']) {
@@ -53,7 +54,7 @@ map.addControl(new mapboxgl.NavigationControl());
                     break;
                 }
             }
-        
+
             map.addLayer({
                 'id': '3d-buildings',
                 'source': 'composite',
@@ -63,7 +64,7 @@ map.addControl(new mapboxgl.NavigationControl());
                 'minzoom': 15,
                 'paint': {
                     'fill-extrusion-color': '#aaa',
-        
+
                     // use an 'interpolate' expression to add a smooth transition effect to the
                     // buildings as the user zooms in
                     'fill-extrusion-height': [
@@ -80,8 +81,56 @@ map.addControl(new mapboxgl.NavigationControl());
                 }
             }, labelLayerId);
         });
-        </script>
-        
+
+
+
+    </script>
+
+
+
+
+    <div id='map-popups' class='map'> </div>
+    <script>
+        L.mapbox.accessToken = 'pk.eyJ1Ijoia2hhbGlsb3dlbnM5MiIsImEiOiJjamV2bDR0aXQ3NDdrMzlvNzFjbGw1MHI4In0.Rj8983ke7W9GO3QnOLJg8A';
+        var mapPopups = L.mapbox.map('map-popups', 'mapbox.light')
+            .setView([37.8, -96], 4);
+        var myLayer = L.mapbox.featureLayer().addTo(mapPopups);
+
+        var geojson = [
+            {
+                type: 'Feature',
+                geometry: {
+                    type: 'Point',
+                    coordinates: [-77.031952, 38.913184]
+                },
+                properties: {
+                    title: 'Mapbox DC',
+                    description: '1714 14th St NW, Washington DC',
+                    'marker-color': '#3bb2d0',
+                    'marker-size': 'large',
+                    'marker-symbol': 'rocket'
+                }
+            },
+            {
+                type: 'Feature',
+                geometry: {
+                    type: 'Point',
+                    coordinates: [-122.413682, 37.775408]
+                },
+                properties: {
+                    title: 'Mapbox SF',
+                    description: '155 9th St, San Francisco',
+                    'marker-color': '#3bb2d0',
+                    'marker-size': 'large',
+                    'marker-symbol': 'rocket'
+                }
+            }
+        ];
+        myLayer.setGeoJSON(geojson);
+        mapPopups.scrollWheelZoom.disable();
+    </script>
+
 
 </body>
+
 </html>
