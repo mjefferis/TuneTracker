@@ -8,6 +8,8 @@
     <link href='https://fonts.googleapis.com/css?family=Monofett' rel='stylesheet'>
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
     <link rel="stylesheet" href="style.css">
+    <script src='https://api.tiles.mapbox.com/mapbox-gl-js/v0.44.1/mapbox-gl.js'></script>
+    <link href='https://api.tiles.mapbox.com/mapbox-gl-js/v0.44.1/mapbox-gl.css' rel='stylesheet' />
     <title>Tune Tracker</title>
 </head>
 
@@ -23,17 +25,17 @@
         </div>
     </div>
 
-    <!--map goes here-->
-    <div class="row">
-        <div class="col-xs-12 col-md-12">
-            <div class="mapgoeshere"></div>
-        </div>
-    </div>
-
     <!--upload button goes here-->
     <div class="row">
         <div class="col-xs-12 col-md-12">
             <button id="upload">Upload</button>
+        </div>
+    </div>
+
+
+    <div class="row">
+        <div class="col-xs-12 col-md-12">
+            <div id='map'></div>
         </div>
     </div>
 
@@ -56,7 +58,7 @@
                     <label for="file">Link</label>
                     <input type="text" class="form-control" id="user-file">
                 </div>
-  
+
                 <div class="form-group">
                     <label for="file">Description</label>
                     <input type="text" class="form-control" id="user-description">
@@ -70,8 +72,8 @@
                 <!--alerts for when user submits form or fills it out incorrectly-->
                 <div id="successform" class="alert alert-success" role="alert">Form Submitted Succesfully</div>
                 <div id="emptyform" class="alert alert-danger" role="alert">Please fill out form completely, dog</div>
-                
-            
+
+
             </form>
         </div>
     </div>
@@ -80,6 +82,8 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/velocity/1.2.3/velocity.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/velocity/1.2.3/velocity.ui.min.js"></script>
     <script src="app.js"></script>
+
+
 </body>
 
 </html>

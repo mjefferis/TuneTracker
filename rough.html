@@ -8,6 +8,10 @@
     <meta name='viewport' content='initial-scale=1,maximum-scale=1,user-scalable=no' />
     <script src='https://api.tiles.mapbox.com/mapbox-gl-js/v0.44.1/mapbox-gl.js'></script>
     <link href='https://api.tiles.mapbox.com/mapbox-gl-js/v0.44.1/mapbox-gl.css' rel='stylesheet' />
+
+    <!-- Firebase Reference -->
+    <script src="https://www.gstatic.com/firebasejs/4.11.0/firebase.js"></script>
+
     <style>
         body {
             margin: 0;
@@ -30,6 +34,30 @@
 
 
     <script>
+
+        // Initialize Firebase
+        var config = {
+            apiKey: "AIzaSyC9fF0OACaRvyDOUZcLG5bX_LEUgmK6yGo",
+            authDomain: "tunetracker-2260d.firebaseapp.com",
+            databaseURL: "https://tunetracker-2260d.firebaseio.com",
+            projectId: "tunetracker-2260d",
+            storageBucket: "tunetracker-2260d.appspot.com",
+            messagingSenderId: "474472193819"
+        };
+
+        firebase.initializeApp(config);
+
+        var database = firebase.database();
+
+        
+
+
+
+
+
+
+
+        //INITIALIZE MAP
         mapboxgl.accessToken = 'pk.eyJ1Ijoia2hhbGlsb3dlbnM5MiIsImEiOiJjamV2bDR0aXQ3NDdrMzlvNzFjbGw1MHI4In0.Rj8983ke7W9GO3QnOLJg8A';
         var map = new mapboxgl.Map({
             style: 'mapbox://styles/mapbox/light-v9',
@@ -40,6 +68,17 @@
             hash: true,
             container: 'map'
         });
+
+
+        // Add geolocate control to the map.
+        map.addControl(new mapboxgl.GeolocateControl({
+            positionOptions: {
+                enableHighAccuracy: true
+            },
+            trackUserLocation: true
+        }));
+
+
 
         // The 'building' layer in the mapbox-streets vector source contains building-height
         // data from OpenStreetMap.
@@ -96,39 +135,80 @@
             .setView([37.8, -96], 4);
         var myLayer = L.mapbox.featureLayer().addTo(mapPopups);
 
-        var geojson = [
-            {
+
+
+        //  GETTING DATA FROM FIREBASE
+        database.ref().on("child_added", function (childSnapshot, prevChildKey) {
+
+            var name = childSnapshot.val().name;
+            var contact = childSnapshot.val().contact;
+            var fileURL = childSnapshot.val().fileURL;
+            var desc = childSnapshot.val().desc;
+
+
+            var geojson = [
+                {
+                    type: 'Feature',
+                    geometry: {
+                        type: 'Point',
+                        coordinates: [-74.9323, 40.2283]
+                    },
+                    properties: {
+                        title: name,
+                        description: contact + "<br>" + desc + "<br" + fileURL,
+                        'marker-color': '#3bb2d0',
+                        'marker-size': 'large',
+                        'marker-symbol': 'rocket'
+                    }
+                }
+            ];
+
+            myLayer.setGeoJSON(geojson);
+            mapPopups.scrollWheelZoom.disable();
+
+        });
+
+
+
+
+
+/*
+        var geojson = {
+            type: 'FeatureCollection',
+            features: [{
                 type: 'Feature',
                 geometry: {
                     type: 'Point',
-                    coordinates: [-77.031952, 38.913184]
+                    coordinates: [-77.032, 38.913]
                 },
                 properties: {
-                    title: 'Mapbox DC',
-                    description: '1714 14th St NW, Washington DC',
-                    'marker-color': '#3bb2d0',
-                    'marker-size': 'large',
-                    'marker-symbol': 'rocket'
+                    title: 'Mapbox',
+                    description: 'Washington, D.C.'
                 }
             },
             {
                 type: 'Feature',
                 geometry: {
                     type: 'Point',
-                    coordinates: [-122.413682, 37.775408]
+                    coordinates: [-122.414, 37.776]
                 },
                 properties: {
-                    title: 'Mapbox SF',
-                    description: '155 9th St, San Francisco',
-                    'marker-color': '#3bb2d0',
-                    'marker-size': 'large',
-                    'marker-symbol': 'rocket'
+                    title: 'Mapbox',
+                    description: 'San Francisco, California'
                 }
-            }
-        ];
-        myLayer.setGeoJSON(geojson);
-        mapPopups.scrollWheelZoom.disable();
+            }]
+        };
+
+*/
+
+
+
     </script>
+
+
+
+
+
 
 
 </body>
