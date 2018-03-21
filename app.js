@@ -57,6 +57,7 @@ $("#submit").on("click", function (event) {
         contact: contact,
         fileURL: fileURL,
         desc: desc
+        
     };
 
     database.ref().push(newPost);
