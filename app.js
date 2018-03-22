@@ -46,19 +46,32 @@ $("#submit").on("click", function (event) {
     var contact = $("#user-contact").val().trim();
     var fileURL = $("#user-file").val().trim();
     var desc = $("#user-description").val().trim();
-    var regExp = /^(?:https?:\/\/)?(?:www\.)?(?:youtu\.be\/|youtube\.com\/(?:embed\/|v\/|watch\?v=|watch\?.+&v=))((\w|-){11})(?:\S+)?$/;
-    var match = fileURL.match(regExp);
+ 
+
+    function validateYouTubeUrl( url )
+{
+    if (url != undefined || url != '') {
+        var regExp = /^.*(youtu.be\/|v\/|u\/\w\/|embed\/|watch\?v=|\&v=|\?v=|\?vi=)([^#\&\?]*).*/;
+        var match = url.match(regExp);
+        if (match && match[2].length == 11) {
+            return true;
+        }
+        else {
+            return false;
+        }
+    }
+}
 
     if (name === "" || contact === "" || fileURL === "" || desc === "") {
         $('#emptyform').show();
         setTimeout(function () { $("#emptyform").hide(); }, 4000);
     }
 
-
-    else if (match !== 11 || match[2].length !== 11) {
+    else if (!validateYouTubeUrl(fileURL)){
         $('#badlink').show();
         setTimeout(function () { $("#badlink").hide(); }, 4000);
     }
+  
 
     else {
 
