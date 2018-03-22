@@ -4,7 +4,7 @@
 
 <head>
     <meta charset='utf-8' />
-    <title>Display map navigation controls</title>
+    <title>Display a popup on click</title>
     <meta name='viewport' content='initial-scale=1,maximum-scale=1,user-scalable=no' />
     <script src='https://api.tiles.mapbox.com/mapbox-gl-js/v0.44.1/mapbox-gl.js'></script>
     <link href='https://api.tiles.mapbox.com/mapbox-gl-js/v0.44.1/mapbox-gl.css' rel='stylesheet' />
@@ -26,109 +26,129 @@
 
 <body>
 
+
+    <style>
+        .mapboxgl-popup {
+            max-width: 400px;
+            font: 12px/20px 'Helvetica Neue', Arial, Helvetica, sans-serif;
+        }
+    </style>
     <div id='map'></div>
 
-
     <script>
+        // Initialize Firebase
+    var config = {
+   apiKey: "AIzaSyC9fF0OACaRvyDOUZcLG5bX_LEUgmK6yGo",
+   authDomain: "tunetracker-2260d.firebaseapp.com",
+   databaseURL: "https://tunetracker-2260d.firebaseio.com",
+   projectId: "tunetracker-2260d",
+   storageBucket: "tunetracker-2260d.appspot.com",
+   messagingSenderId: "474472193819"
+};
+
+//firebase.initializeApp(config);
+
         mapboxgl.accessToken = 'pk.eyJ1Ijoia2hhbGlsb3dlbnM5MiIsImEiOiJjamV2bDR0aXQ3NDdrMzlvNzFjbGw1MHI4In0.Rj8983ke7W9GO3QnOLJg8A';
         var map = new mapboxgl.Map({
-            style: 'mapbox://styles/mapbox/light-v9',
-            center: [-74.0066, 40.7135],
-            zoom: 15.5,
-            pitch: 45,
-            bearing: -17.6,
-            hash: true,
-            container: 'map'
+            container: 'map', // container id
+            style: 'mapbox://styles/mapbox/streets-v9',
+            center: [-74.50, 40], // starting position
+            zoom: 9 // starting zoom
         });
 
-        // The 'building' layer in the mapbox-streets vector source contains building-height
-        // data from OpenStreetMap.
-        map.on('load', function () {
-            // Insert the layer beneath any symbol layer.
-            var layers = map.getStyle().layers;
 
-            var labelLayerId;
-            for (var i = 0; i < layers.length; i++) {
-                if (layers[i].type === 'symbol' && layers[i].layout['text-field']) {
-                    labelLayerId = layers[i].id;
-                    break;
+        map.on('load', function () {
+            // Add a layer showing the places.
+
+            var dataFromFirebase = [
+                {
+                    description: "I'm making beats at Rittenhouse Square",
+                    coords: [-75.1740722, 39.9494818]
                 }
-            }
+            ];
+            var popUps = [];
+
+            dataFromFirebase.forEach(function(pinpoint) {
+                var formattedData = {
+                    "type": "Feature",
+                    "properties": {
+                        "description": "<h1>" + pinpoint.description + "</h1>",
+                        "icon": "theatre"
+                    },
+                    "geometry": {
+                        "type": "Point",
+                        "coordinates": pinpoint.coords
+                    }
+                };
+                popUps.push(formattedData);
+            })
+
+            // var popUps = ["type": "Feature","properties": {
+                            //     "description": "<strong>Make it Mount Pleasant</strong><p><a href=\"http://www.mtpleasantdc.com/makeitmtpleasant\" target=\"_blank\" title=\"Opens in a new window\">Make it Mount Pleasant</a> is a handmade and vintage market and afternoon of live entertainment and kids activities. 12:00-6:00 p.m.</p>",
+                            //     "icon": "theatre" },
+                            // "geometry": {
+                            //     "type": "Point",
+                            //     "coordinates": [-75.1820221, 39.9559212]];
+            // var dataFromFirebase;
+
+            // dateFromFirebase.forEach(function(data) {
+            //     popUps.push({
+            //         "type": "Features",
+            //         "properties": {
+            //             "description" : data.description
+            //         }
+            //     })
+            // });
 
             map.addLayer({
-                'id': '3d-buildings',
-                'source': 'composite',
-                'source-layer': 'building',
-                'filter': ['==', 'extrude', 'true'],
-                'type': 'fill-extrusion',
-                'minzoom': 15,
-                'paint': {
-                    'fill-extrusion-color': '#aaa',
+                "id": "places",
+                "type": "symbol",
+                "source": {
+                    "type": "geojson",
+                    "data": {
+                        "type": "FeatureCollection",
+                        "features": popUps
+                    }
+                },
+                "layout": {
+                    "icon-image": "{icon}-15",
+                    "icon-allow-overlap": true
 
-                    // use an 'interpolate' expression to add a smooth transition effect to the
-                    // buildings as the user zooms in
-                    'fill-extrusion-height': [
-                        "interpolate", ["linear"], ["zoom"],
-                        15, 0,
-                        15.05, ["get", "height"]
-                    ],
-                    'fill-extrusion-base': [
-                        "interpolate", ["linear"], ["zoom"],
-                        15, 0,
-                        15.05, ["get", "min_height"]
-                    ],
-                    'fill-extrusion-opacity': .6
                 }
-            }, labelLayerId);
+            });
+
+            // When a click event occurs on a feature in the places layer, open a popup at the
+            // location of the feature, with description HTML from its properties.
+            map.on('click', 'places', function (e) {
+                var coordinates = e.features[0].geometry.coordinates.slice();
+                var description = e.features[0].properties.description;
+
+                // Ensure that if the map is zoomed out such that multiple
+                // copies of the feature are visible, the popup appears
+                // over the copy being pointed to.
+                while (Math.abs(e.lngLat.lng - coordinates[0]) > 180) {
+                    coordinates[0] += e.lngLat.lng > coordinates[0] ? 360 : -360;
+                }
+
+                new mapboxgl.Popup()
+                    .setLngLat(coordinates)
+                    .setHTML(description)
+                    .addTo(map);
+            });
+
+            // Change the cursor to a pointer when the mouse is over the places layer.
+            map.on('mouseenter', 'places', function () {
+                map.getCanvas().style.cursor = 'pointer';
+            });
+
+            // Change it back to a pointer when it leaves.
+            map.on('mouseleave', 'places', function () {
+                map.getCanvas().style.cursor = '';
+            });
         });
 
-
-
     </script>
 
-
-
-
-    <div id='map-popups' class='map'> </div>
-    <script>
-        L.mapbox.accessToken = 'pk.eyJ1Ijoia2hhbGlsb3dlbnM5MiIsImEiOiJjamV2bDR0aXQ3NDdrMzlvNzFjbGw1MHI4In0.Rj8983ke7W9GO3QnOLJg8A';
-        var mapPopups = L.mapbox.map('map-popups', 'mapbox.light')
-            .setView([37.8, -96], 4);
-        var myLayer = L.mapbox.featureLayer().addTo(mapPopups);
-
-        var geojson = [
-            {
-                type: 'Feature',
-                geometry: {
-                    type: 'Point',
-                    coordinates: [-77.031952, 38.913184]
-                },
-                properties: {
-                    title: 'Mapbox DC',
-                    description: '1714 14th St NW, Washington DC',
-                    'marker-color': '#3bb2d0',
-                    'marker-size': 'large',
-                    'marker-symbol': 'rocket'
-                }
-            },
-            {
-                type: 'Feature',
-                geometry: {
-                    type: 'Point',
-                    coordinates: [-122.413682, 37.775408]
-                },
-                properties: {
-                    title: 'Mapbox SF',
-                    description: '155 9th St, San Francisco',
-                    'marker-color': '#3bb2d0',
-                    'marker-size': 'large',
-                    'marker-symbol': 'rocket'
-                }
-            }
-        ];
-        myLayer.setGeoJSON(geojson);
-        mapPopups.scrollWheelZoom.disable();
-    </script>
 
 
 </body>
