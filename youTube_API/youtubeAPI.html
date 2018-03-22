@@ -1,0 +1,51 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Document</title>
+</head>
+<body>
+
+    <h1>Testing out the YouTube API Player for the Iframe embeds</h1>
+    <div class="form-group">
+        <label for="file"></label>
+        <input type="text" class="form-control" id="user-file">
+    </div>
+    <div class="form-group">
+        <input id="find-link" type="submit" value="Add a link">
+    </div>
+
+    <br>
+    <br>
+
+    <!-- we'll be dumping out youtube playlist on this div -->
+    <!--
+
+      src="https://www.youtube.com/embed/MEZr71nrocQ?enablejsapi=1"
+      frameborder="0"
+      
+      src = "https://www.youtube.com/embed/aSBKXPYDSo8/"
+
+      src="http://www.youtube.com/embed/M7lc1UVf-VE?enablejsapi=1"
+
+    -->
+
+    <iframe id="newplayer" type="text/html" width="640" height="390"
+         
+        frameborder="0">
+      </iframe>
+
+ 
+<!-- Jquery -->
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+
+<!-- javascript file -->
+<script type="text/javascript" src="youTUBE.js"></script>
+
+
+
+</body>
+</html>
