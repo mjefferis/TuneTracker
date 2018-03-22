@@ -47,20 +47,55 @@ $("#submit").on("click", function (event) {
 
     event.preventDefault();
 
+
     var name = $("#user-name").val().trim();
     var contact = $("#user-contact").val().trim();
     var fileURL = $("#user-file").val().trim();
     var desc = $("#user-description").val().trim();
 
+
+    //var latitude = "";
+    //var longitude = "";
+
+
+    var x = document.getElementById("coords");
+
+
+    function getLocation() {
+        if (navigator.geolocation) {
+            navigator.geolocation.getCurrentPosition(showPosition);
+        } else {
+            x.innerHTML = "Geolocation is not supported by this browser.";
+        }
+    }
+
+    function showPosition(position) {
+        x.innerHTML = "[" + position.coords.latitude + "," + position.coords.longitude + "]";
+    }
+
+    //var lat = position.coords.latitude;
+    //var lon = position.coords.longitude;
+
+    getLocation();
+
+
+    var coords = x.val();
+    console.log(coords);
+
+
+
     var newPost = {
         name: name,
         contact: contact,
         fileURL: fileURL,
-        desc: desc
-        
+        desc: desc,
+        //coords: coords
+
+
     };
 
     database.ref().push(newPost);
+
 
     // Clears all of the text-boxes
     $("#user-name").val("");
@@ -76,10 +111,6 @@ $("#submit").on("click", function (event) {
 
 
 });
-
-
-
-
 
 
 
