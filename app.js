@@ -8,10 +8,17 @@ $('#badlink').hide();
 $(".jumbotron").velocity("fadeIn", { duration: 1500 })
 
 //more velocity js
-$("#upload").velocity({ translateY: 125 }, {
+$("#upload").velocity({ translateY: 50 }, {
     duration: 2250,
     easing: [300, 8]
 });
+
+$("body").velocity({
+    backgroundColor: "#003326"
+  }, {
+      duration: 2500,
+      easing: "easeInQuad"
+  });
 
 // Initialize Firebase
 var config = {
@@ -32,10 +39,16 @@ var database = firebase.database();
 
 $('#upload').on('click', function (event) {
     event.preventDefault();
-    $('#formy').show();
+    var slideDir = $('#formy').is(':visible') ? 'slideUp' : 'slideDown';
+    $('#formy').velocity(slideDir);
     $('#upload').hide();
 });
 
+$('#cancel-btn').on('click', function (event) {
+    event.preventDefault();
+    $('#formy').hide();
+    $('#upload').show();
+});
 
 
 $("#submit").on("click", function (event) {
@@ -93,9 +106,9 @@ $("#submit").on("click", function (event) {
         //Hides the form & shows the upload button again
 
         $('#formy').hide();
-        $('#upload').show();
         $('#successform').show();
-        setTimeout(function () { $("#successform").hide(); }, 4000);
+        setTimeout(function () { $("#successform").hide(); }, 3000);
+        setTimeout(function () { $("#upload").show(); }, 3000);
 
 
 
