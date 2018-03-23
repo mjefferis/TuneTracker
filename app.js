@@ -42,6 +42,19 @@ $('#upload').on('click', function (event) {
 });
 
 
+$('#cancel-btn').on('click', function (event) {
+    event.preventDefault();
+    $('#formy').hide();
+    $('#upload').show();
+
+    // Clears all of the text-boxes
+    $("#user-name").val("");
+    $("#user-contact").val("");
+    $("#user-file").val("");
+    $("#user-description").val("");
+});
+
+
 
 $("#submit").on("click", function (event) {
 
@@ -54,47 +67,93 @@ $("#submit").on("click", function (event) {
     var desc = $("#user-description").val().trim();
 
 
-    //var latitude = "";
-    //var longitude = "";
+/*
+    if (navigator.geolocation) {
+        var lat_lng = navigator.geolocation.getCurrentPosition(function(position){
+          var user_position = {};
+          user_position.lat = position.coords.latitude; 
+          user_position.lng = position.coords.longitude; 
+          callback(user_position);
+        });
+    }
+*/
+
 
 
     var x = document.getElementById("coords");
 
 
-    function getLocation() {
+    function getLocation(callback) {
         if (navigator.geolocation) {
-            navigator.geolocation.getCurrentPosition(showPosition);
-        } else {
+            var lat_lng = navigator.geolocation.getCurrentPosition(function (position) {
+                //var user_position = [position.coords.longitude, position.coords.latitude];
+                var lng = position.coords.longitude;
+                //user_position.lat = position.coords.latitude; 
+                // user_position.lng = position.coords.longitude; 
+                
+
+                var lat = position.coords.latitude;
+                callback(lng + ", " + lat);
+            });
+
+        }
+
+
+        else {
             x.innerHTML = "Geolocation is not supported by this browser.";
         }
     }
+    getLocation(function (lat_lng) {
 
-    function showPosition(position) {
-        x.innerHTML = "[" + position.coords.latitude + "," + position.coords.longitude + "]";
-    }
+        database.ref().push({
+            name: name,
+            contact: contact,
+            fileURL: fileURL,
+            desc: desc,
+            coords: lat_lng
+        });
 
-    //var lat = position.coords.latitude;
-    //var lon = position.coords.longitude;
-
-    getLocation();
-
-
-    var coords = x.val();
-    console.log(coords);
+    });
 
 
 
+    /*
+     
+        function getLocation() {
+            if (navigator.geolocation) {
+                navigator.geolocation.getCurrentPosition(showPosition);
+            } else {
+                x.innerHTML = "Geolocation is not supported by this browser.";
+            }
+        }
+     
+        function showPosition(position) {
+            x.innerHTML = "[" + position.coords.latitude + "," + position.coords.longitude + "]";
+            //window.coordsGlobal = coords;
+            //return coords;
+            //console.log(coords);
+     
+        }
+     
+     
+        getLocation();
+    */
+
+
+    /*
     var newPost = {
         name: name,
         contact: contact,
         fileURL: fileURL,
         desc: desc,
         //coords: coords
-
-
+    
+    
     };
-
+    
     database.ref().push(newPost);
+    */
+
 
 
     // Clears all of the text-boxes
@@ -114,6 +173,45 @@ $("#submit").on("click", function (event) {
 
 
 
+
+    //TRIED TO PUT THE FUNCTION IN AN OBJECT
+    /*
+        var location = {
+    
+            getLocation: function () {
+                if (navigator.geolocation) {
+                    navigator.geolocation.getCurrentPosition(this.showPosition);
+                } else {
+                    x.innerHTML = "Geolocation is not supported by this browser.";
+                }
+            },
+    
+    
+            showPosition: function (position) {
+                var coords = "[" + position.coords.latitude + "," + position.coords.longitude + "]";
+                return coords;
+                console.log(coords);
+                //window.coordsGlobal = coords;
+                //console.log(coords2);
+            },
+    
+    
+            coords: position.coords.latitude
+    
+        }
+    */
+
+
+
+
+
+        /*
+    geoFire.set(<any-name-identifier>, [<lat>,<long>]).then(function() {
+        console.log("Location added")
+        }).catch(function(error) {
+        console.log(error);
+        });
+*/
 
 
 
