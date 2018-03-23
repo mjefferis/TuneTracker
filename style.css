@@ -10,12 +10,19 @@
     font-size: 30px;
     color:skyblue;
     background-image: url("Images/round.png");
+    height:250px;
+}
+
+.text-center{
+    margin-top:1px;
+    font-size: 160px;
 }
 #upload{
     float: right;
     margin-right:45%;
-    width:100px;
-    height:50px;
+    width:200px;
+    height:60px;
+    font-size: 22px;
 }
 
 .alert{
@@ -59,11 +66,15 @@ body{
 
 form{
     background-color:skyblue;
-    font:'helvetica';
     padding:10px 10px 10px 10px;
     border-style:solid;
     border-width: 4px;
     border-color:black; 
+}
+
+#usertext{
+    font-family: 'Permanent Marker', cursive;
+
 }
 
 
@@ -71,9 +82,17 @@ form{
     width:50%;
     margin-left:25%;
     margin-bottom:5px;
+
 }
 
 .alert{
     text-align:center;
     font:helvetica;
+    font-size: 12px;
+}
+
+#successform{
+    margin-right:150px;
+    margin-left:150px;
+    font-size: 12px;
 }
