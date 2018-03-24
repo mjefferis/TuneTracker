@@ -8,7 +8,7 @@ $('#emptyform').hide();
 $(".jumbotron").velocity("fadeIn", { duration: 1500 })
 
 //more velocity js
-$("#upload").velocity({ translateY: 125 }, {
+$("#upload").velocity({ translateY: 10 }, {
     duration: 2250,
     easing: [300, 8]
 });
@@ -31,7 +31,114 @@ firebase.initializeApp(config);
 
 var database = firebase.database();
 
+//INITIALIZE MAP
+mapboxgl.accessToken = 'pk.eyJ1Ijoia2hhbGlsb3dlbnM5MiIsImEiOiJjamV2bDR0aXQ3NDdrMzlvNzFjbGw1MHI4In0.Rj8983ke7W9GO3QnOLJg8A';
 
+var map = new mapboxgl.Map({
+  container: 'map',
+  style: 'mapbox://styles/mapbox/light-v9',
+  center: [-75.1652, 39.9526],
+  zoom: 14
+});
+
+
+//ADD GEOLOCATION
+map.addControl(new mapboxgl.GeolocateControl({
+  positionOptions: {
+    enableHighAccuracy: true
+  },
+  trackUserLocation: true
+}));
+
+
+//JSON MARKER DATA
+var geojson = {
+  type: 'FeatureCollection',
+  features: [{
+    type: 'Feature',
+    geometry: {
+      type: 'Point',
+      coordinates: [-77.032, 38.913]
+    },
+    properties: {
+      title: 'Washington',
+      description: "sdsd"
+    }
+  },
+  {
+    type: 'Feature',
+    geometry: {
+      type: 'Point',
+      coordinates: [-122.414, 37.776]
+    },
+    properties: {
+      title: 'Mapbox',
+      description: 'San Francisco, California'
+    }
+  }]
+};
+
+
+
+    //ADD MARKERS TO MAP
+    geojson.features.forEach(function (marker) {
+
+      // create a HTML element for each feature
+      var el = document.createElement('div');
+      el.className = 'marker';
+
+      // make a marker for each feature and add to the map
+      new mapboxgl.Marker(el)
+        .setLngLat(marker.geometry.coordinates)
+
+        //SET POP UPS
+        .setPopup(new mapboxgl.Popup({ offset: 25 })
+          .setHTML('<h3>' + marker.properties.title + '</h3><p>' + marker.properties.description + '</p>'))
+
+        .addTo(map);
+    });
+
+
+
+
+// GETTING DATA FROM FIREBASE AND USING IT IN THE POPUPS
+database.ref().on("child_added", function (childSnapshot, prevChildKey) {
+
+  var name = childSnapshot.val().name;
+  var contact = childSnapshot.val().contact;
+  var fileURL = childSnapshot.val().fileURL;
+  var desc = childSnapshot.val().desc;
+
+
+
+
+
+
+  //ADD MARKERS TO MAP
+  geojson.features.forEach(function (marker) {
+
+    var name = childSnapshot.val().name;
+
+    // create a HTML element for each feature
+    var el = document.createElement('div');
+    el.className = 'marker';
+
+    // make a marker for each feature and add to the map
+    new mapboxgl.Marker(el)
+      .setLngLat(marker.geometry.coordinates)
+
+      //SET POP UPS
+      .setPopup(new mapboxgl.Popup({ offset: 25 })
+        .setHTML('<h3>' + marker.properties.title + '</h3><p>' + marker.properties.description + '</p>'))
+      .addTo(map);
+
+
+    console.log(name);
+
+  });
+
+
+});
 
 
 $('#upload').on('click', function (event) {
@@ -67,7 +174,7 @@ $("#submit").on("click", function (event) {
     var desc = $("#user-description").val().trim();
 
 
-/*
+
     if (navigator.geolocation) {
         var lat_lng = navigator.geolocation.getCurrentPosition(function(position){
           var user_position = {};
@@ -76,11 +183,32 @@ $("#submit").on("click", function (event) {
           callback(user_position);
         });
     }
-*/
+
 
 
 
     var x = document.getElementById("coords");
+
+    function getLocation(callback) {
+        if (navigator.geolocation) {
+            var lat_lng = navigator.geolocation.getCurrentPosition(function (position) {
+                //var user_position = [position.coords.longitude, position.coords.latitude];
+                var lng = position.coords.longitude;
+                //user_position.lat = position.coords.latitude; 
+                // user_position.lng = position.coords.longitude; 
+                
+
+                var lat = position.coords.latitude;
+                callback(lng + ", " + lat);
+            });
+
+        }
+
+
+        else {
+            x.innerHTML = "Geolocation is not supported by this browser.";
+        }
+    }
 
 
     function getLocation(callback) {
@@ -111,13 +239,14 @@ $("#submit").on("click", function (event) {
             fileURL: fileURL,
             desc: desc,
             coords: lat_lng
+
         });
 
     });
 
 
 
-    /*
+    
      
         function getLocation() {
             if (navigator.geolocation) {
@@ -137,10 +266,10 @@ $("#submit").on("click", function (event) {
      
      
         getLocation();
-    */
+    
 
 
-    /*
+    
     var newPost = {
         name: name,
         contact: contact,
@@ -152,7 +281,7 @@ $("#submit").on("click", function (event) {
     };
     
     database.ref().push(newPost);
-    */
+    
 
 
 

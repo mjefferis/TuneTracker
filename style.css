@@ -3,7 +3,7 @@
     font-family: 'VT323';
     font-size: 22px;
     color:lightseagreen;
-    
+    line-height:2px;
 }
 
 
@@ -15,6 +15,10 @@
     background-image: url("Images/round.png");
    
    
+}
+
+h1{
+    line-height:2px;
 }
 
 #upload{
@@ -35,6 +39,8 @@
 
 body{
     background-color:lightgrey;
+    margin: 0;
+    padding: 0;
 }
 
 .radar{
@@ -79,3 +85,31 @@ form{
     margin-bottom:5px;
 }
 
+#map{
+    
+   margin-right:12.5%;
+   margin-left:12.5%;
+    top: 0;
+    bottom: 0;
+    width: 75%;
+    height:450px;
+    margin-top:2px;
+  }
+
+  .marker {
+    background-image: url('Images/mapbox-icon.png');
+    background-size: cover;
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    cursor: pointer;
+  }
+
+  .mapboxgl-popup {
+    max-width: 200px;
+  }
+
+  .mapboxgl-popup-content {
+    text-align: center;
+    font-family: 'Open Sans', sans-serif;
+  }
