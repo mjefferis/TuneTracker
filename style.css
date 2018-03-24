@@ -3,14 +3,20 @@
     font-family: 'VT323';
     font-size: 22px;
     color:lightseagreen;
+    
 }
+
+
 .jumbotron{
     text-align:center;
     font-family: 'Monofett';
     font-size: 30px;
     color:skyblue;
     background-image: url("Images/round.png");
+   
+   
 }
+
 #upload{
     float: right;
     margin-right:50%;
