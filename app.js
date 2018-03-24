@@ -82,6 +82,27 @@ $("#submit").on("click", function (event) {
 
     var x = document.getElementById("coords");
 
+    function getLocation(callback) {
+        if (navigator.geolocation) {
+            var lat_lng = navigator.geolocation.getCurrentPosition(function (position) {
+                //var user_position = [position.coords.longitude, position.coords.latitude];
+                var lng = position.coords.longitude;
+                //user_position.lat = position.coords.latitude; 
+                // user_position.lng = position.coords.longitude; 
+                
+
+                var lat = position.coords.latitude;
+                callback(lng + ", " + lat);
+            });
+
+        }
+
+
+        else {
+            x.innerHTML = "Geolocation is not supported by this browser.";
+        }
+    }
+
 
     function getLocation(callback) {
         if (navigator.geolocation) {
@@ -111,6 +132,7 @@ $("#submit").on("click", function (event) {
             fileURL: fileURL,
             desc: desc,
             coords: lat_lng
+
         });
 
     });
