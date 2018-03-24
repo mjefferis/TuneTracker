@@ -86,7 +86,7 @@
                 var fileURL = childSnapshot.val().fileURL;
                 var desc = childSnapshot.val().desc;
                 var coords = childSnapshot.val().coords;
-
+                coords = JSON.parse('[' + coords + ']');
                 console.log(coords);
 
 
@@ -101,10 +101,9 @@
                         //**************************************************************
                         //NEED TO FIGURE OUT A WAY FOR THE COORDS VALUE THAT'S GOTTEN FROM FIREBASE TO BE STORED AS AN ARRAY, bc thats what the 'coords' mapbox value takes in, NOT JUST HTML VALUE
                         coords: coords
+                        
                     }
                 ];
-
-                
 
                 var popUps = [];
                 dataFromFirebase.forEach(function (pinpoint) {
