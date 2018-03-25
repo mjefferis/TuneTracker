@@ -44,9 +44,14 @@
     <!--this holds the form. It will pop up when the upload button is clicked-->
     <div class="row">
         <div class="col-xs-12 col-md-12">
+              <!--alerts for when user submits form or fills it out incorrectly-->
+              <div id="successform" class="alert alert-success" role="alert">Form Submitted Succesfully</div>
+                
             <form role="form" id="formy">
 
                 <div class="form-group">
+                        <div id="emptyform" class="alert alert-danger" role="alert">Please fill out form completely</div>
+                        <div id="badlink" class="alert alert-danger" role="alert">Not a valid youtube URL</div>
                     <label for="name">Name</label>
                     <input type="text" class="form-control" id="user-name">
                 </div>
@@ -73,9 +78,7 @@
                 <button type="submit" class="btn btn-default" id="cancel-btn">
                     <i class="fa fa-search"></i> Cancel</button>
 
-                <!--alerts for when user submits form or fills it out incorrectly-->
-                <div id="successform" class="alert alert-success" role="alert">Form Submitted Succesfully</div>
-                <div id="emptyform" class="alert alert-danger" role="alert">Please fill out form completely, dog</div>
+              
 
 
             </form>

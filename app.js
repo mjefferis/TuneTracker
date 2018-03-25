@@ -2,18 +2,27 @@
 $('#formy').hide();
 $('#successform').hide();
 $('#emptyform').hide();
+$('#emptyform').hide();
+$('#badlink').hide();
+
 
 
 //this is an example of velocity.js this website is a good tutorial: http://www.independent-software.com/velocity-js-tutorial-accelerated-javascript-animation/
 $(".jumbotron").velocity("fadeIn", { duration: 1500 })
+$("#map").velocity("fadeIn", { duration: 1500 })
 
 //more velocity js
-$("#upload").velocity({ translateY: 10 }, {
+$("#upload").velocity({ translateY: 520 }, {
     duration: 2250,
     easing: [300, 8]
 });
 
-
+$("body").velocity({
+    backgroundColor: "#00004d"
+  }, {
+      duration: 2500,
+      easing: "easeInQuad"
+  });
 
 
 
@@ -143,8 +152,11 @@ database.ref().on("child_added", function (childSnapshot, prevChildKey) {
 
 $('#upload').on('click', function (event) {
     event.preventDefault();
-    $('#formy').show();
+    var slideDir = $('#formy').is(':visible') ? 'slideUp' : 'slideDown';
+    $('#formy').velocity(slideDir);
     $('#upload').hide();
+    $('#map').hide();
+
 
 });
 
@@ -153,6 +165,7 @@ $('#cancel-btn').on('click', function (event) {
     event.preventDefault();
     $('#formy').hide();
     $('#upload').show();
+    $('#map').show();
 
     // Clears all of the text-boxes
     $("#user-name").val("");
@@ -173,6 +186,32 @@ $("#submit").on("click", function (event) {
     var fileURL = $("#user-file").val().trim();
     var desc = $("#user-description").val().trim();
 
+    function validateYouTubeUrl( url )
+    {
+        if (url != undefined || url != '') {
+            var regExp = /^.*(youtu.be\/|v\/|u\/\w\/|embed\/|watch\?v=|\&v=|\?v=|\?vi=)([^#\&\?]*).*/;
+            var match = url.match(regExp);
+            if (match && match[2].length == 11) {
+                return true;
+            }
+            else {
+                return false;
+            }
+        }
+    }
+    
+        if (name === "" || contact === "" || fileURL === "" || desc === "") {
+            $('#emptyform').show();
+            setTimeout(function () { $("#emptyform").hide(); }, 4000);
+        }
+    
+        else if (!validateYouTubeUrl(fileURL)){
+            $('#badlink').show();
+            setTimeout(function () { $("#badlink").hide(); }, 4000);
+        }
+      
+    
+        else {
 
 
     if (navigator.geolocation) {
@@ -294,9 +333,12 @@ $("#submit").on("click", function (event) {
     //Hides the form & shows the upload button again
 
     $('#formy').hide();
-    $('#upload').show();
+    $('#map').show();
+    $('#successform').show();
+    setTimeout(function () { $("#successform").hide(); }, 3000);
+    setTimeout(function () { $("#upload").show(); }, 3000);
 
-
+        }
 
 });
 
