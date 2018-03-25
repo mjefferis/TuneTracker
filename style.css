@@ -3,6 +3,7 @@
     font-family: 'VT323';
     font-size: 22px;
     color:lightseagreen;
+    line-height:2px;
 }
 .jumbotron{
     text-align:center;
@@ -10,33 +11,35 @@
     font-size: 30px;
     color:skyblue;
     background-image: url("Images/round.png");
+   
+   
+}
+h1{
+    line-height:2px;
 }
 #upload{
     float: right;
-    margin-right:45%;
+    margin-right:50%;
     width:100px;
     height:50px;
 }
-
 .alert{
     text-align:center;
 }
-
 .text-center{
     display:inline;
     text-align:center;
 }
-
 body{
     background-color:lightgrey;
+    margin: 0;
+    padding: 0;
 }
-
 .radar{
     height:100px;
     width:100px;
     margin-bottom:18px;
 }
-
 .btn, #upload{
     font-family: 'VT323';
     background-color:lightseagreen;
@@ -47,16 +50,13 @@ body{
     border-width: 4px;
     border-color:black;
 }
-
 .btn:hover, #upload:hover{
     opacity:50%;
     background-color:seagreen;
 }
-
 .btn:active, #upload:active{
     background-color:seagreen;
 }
-
 form{
     background-color:skyblue;
     font:'helvetica';
@@ -65,15 +65,33 @@ form{
     border-width: 4px;
     border-color:black; 
 }
-
-
 #formy, .btn{
     width:50%;
     margin-left:25%;
     margin-bottom:5px;
 }
-
-.alert{
-    text-align:center;
-    font:helvetica;
-}
+#map{
+    
+   margin-right:12.5%;
+   margin-left:12.5%;
+    top: 0;
+    bottom: 0;
+    width: 75%;
+    height:450px;
+    margin-top:2px;
+  }
+  .marker {
+    background-image: url('Images/mapbox-icon.png');
+    background-size: cover;
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    cursor: pointer;
+  }
+  .mapboxgl-popup {
+    max-width: 200px;
+  }
+  .mapboxgl-popup-content {
+    text-align: center;
+    font-family: 'Open Sans', sans-serif;
+  }
