@@ -12,18 +12,21 @@ $(".jumbotron").velocity("fadeIn", { duration: 1500 })
 $("#map").velocity("fadeIn", { duration: 2500 })
 
 //more velocity js
+
 $("#upload").velocity({ translateY: 520 }, {
+
     duration: 2250,
     easing: [300, 8]
 });
 
 $("body").velocity({
+
     backgroundColor: "#00004d"
+
   }, {
       duration: 2500,
       easing: "easeInQuad"
   });
-
 
 
 // Initialize Firebase
@@ -172,6 +175,11 @@ $('#cancel-btn').on('click', function (event) {
     $("#user-description").val("");
 });
 
+$('#cancel-btn').on('click', function (event) {
+    event.preventDefault();
+    $('#formy').hide();
+    $('#upload').show();
+});
 
 
 $("#submit").on("click", function (event) {
@@ -182,6 +190,23 @@ $("#submit").on("click", function (event) {
     var contact = $("#user-contact").val().trim();
     var fileURL = $("#user-file").val().trim();
     var desc = $("#user-description").val().trim();
+
+ 
+
+    function validateYouTubeUrl( url )
+{
+    if (url != undefined || url != '') {
+        var regExp = /^.*(youtu.be\/|v\/|u\/\w\/|embed\/|watch\?v=|\&v=|\?v=|\?vi=)([^#\&\?]*).*/;
+        var match = url.match(regExp);
+        if (match && match[2].length == 11) {
+            return true;
+        }
+        else {
+            return false;
+        }
+    }
+}
+
 
     function validateYouTubeUrl( url )
     {
@@ -221,6 +246,12 @@ $("#submit").on("click", function (event) {
     }
 
 
+    else if (!validateYouTubeUrl(fileURL)){
+        $('#badlink').show();
+        setTimeout(function () { $("#badlink").hide(); }, 4000);
+    }
+  
+
 
 
     var x = document.getElementById("coords");
@@ -247,6 +278,7 @@ $("#submit").on("click", function (event) {
     }
 
 
+
     function getLocation(callback) {
         if (navigator.geolocation) {
             var lat_lng = navigator.geolocation.getCurrentPosition(function (position) {
@@ -255,6 +287,12 @@ $("#submit").on("click", function (event) {
                 //user_position.lat = position.coords.latitude; 
                 // user_position.lng = position.coords.longitude; 
                 
+
+        $('#formy').hide();
+        $('#successform').show();
+        setTimeout(function () { $("#successform").hide(); }, 3000);
+        setTimeout(function () { $("#upload").show(); }, 3000);
+
 
                 var lat = position.coords.latitude;
                 callback(lng + ", " + lat);
