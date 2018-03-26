@@ -13,16 +13,18 @@
     color:skyblue;
     background-image: url("Images/round.png");
     margin-bottom:0;
-   
+
    
 }
 h1{
     line-height:2px;
+    padding-top:10px;
 }
 #upload{
     float: right;
-    margin-right:50%;
-    width:100px;
+    margin-right:45%;
+    margin-left:45%;
+    width:10%;
     height:50px;
     z-index:20;
 }
@@ -67,11 +69,12 @@ form{
     border-style:solid;
     border-width: 4px;
     border-color:black; 
-    margin-top:5px;
+    margin-top:10px;
 }
 #formy, .btn{
     width:50%;
     margin-left:25%;
+    margin-right:25%;
     margin-bottom:5px;
 }
 #map{
@@ -83,7 +86,7 @@ form{
     width: 89%;
     height:450px;
     margin-top:0;
-    
+    z-index:1;
   }
   .marker {
     background-image: url('Images/mapbox-icon.png');

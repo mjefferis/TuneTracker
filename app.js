@@ -9,7 +9,7 @@ $('#badlink').hide();
 
 //this is an example of velocity.js this website is a good tutorial: http://www.independent-software.com/velocity-js-tutorial-accelerated-javascript-animation/
 $(".jumbotron").velocity("fadeIn", { duration: 1500 })
-$("#map").velocity("fadeIn", { duration: 1500 })
+$("#map").velocity("fadeIn", { duration: 2500 })
 
 //more velocity js
 $("#upload").velocity({ translateY: 520 }, {
