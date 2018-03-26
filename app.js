@@ -35,9 +35,7 @@ var config = {
     storageBucket: "tunetracker-2260d.appspot.com",
     messagingSenderId: "474472193819"
 };
-
 firebase.initializeApp(config);
-
 var database = firebase.database();
 
 //INITIALIZE MAP
@@ -177,7 +175,6 @@ $('#cancel-btn').on('click', function (event) {
 
 
 $("#submit").on("click", function (event) {
-
     event.preventDefault();
 
 
@@ -271,7 +268,6 @@ $("#submit").on("click", function (event) {
         }
     }
     getLocation(function (lat_lng) {
-
         database.ref().push({
             name: name,
             contact: contact,
@@ -329,9 +325,7 @@ $("#submit").on("click", function (event) {
     $("#user-contact").val("");
     $("#user-file").val("");
     $("#user-description").val("");
-
     //Hides the form & shows the upload button again
-
     $('#formy').hide();
     $('#map').show();
     $('#successform').show();
