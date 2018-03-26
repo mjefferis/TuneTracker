@@ -15,7 +15,7 @@ function getId(url) {
 
 }
  
-var apiKey = 'AIzaSyDj5D3uV6x8m2T6OKI8Ku7DOeddJkP8JwQ';
+//var apiKey = 'AIzaSyDj5D3uV6x8m2T6OKI8Ku7DOeddJkP8JwQ';
   
 var player;
 function onYouTubeIframeAPIReady() {
@@ -30,6 +30,9 @@ function onYouTubeIframeAPIReady() {
             height: '360',
             width: '640',
             videoId: userVideoID,
+            event: {
+               // player.playVideo():
+            }
 
 
         });

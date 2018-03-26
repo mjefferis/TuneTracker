@@ -31,6 +31,19 @@ firebase.initializeApp(config);
 
 var database = firebase.database();
 
+// function get takes in users youtube link and returns out the videoID
+function getId(url) {
+    var regExp = /^.*(youtu.be\/|v\/|u\/\w\/|embed\/|watch\?v=|\&v=)([^#\&\?]*).*/;
+
+    var match = url.match(regExp);
+
+    if (match && match[2].length == 11){
+        return match[2];
+    } else {
+        return "error";
+    }
+
+}
 
 
 
@@ -42,38 +55,40 @@ $('#upload').on('click', function (event) {
 });
 
 
+var player;
+function onYouTubeIframeAPIReady() {
+    $("#submit").on("click", function (event) {
 
-$("#submit").on("click", function (event) {
+        event.preventDefault();
 
-     event.preventDefault();
+        var name = $("#user-name").val().trim();
+        var contact = $("#user-contact").val().trim();
+        var fileURL = $("#user-file").val().trim();
+        var desc = $("#user-description").val().trim();
 
-    var name = $("#user-name").val().trim();
-    var contact = $("#user-contact").val().trim();
-    var fileURL = $("#user-file").val().trim();
-    var desc = $("#user-description").val().trim();
+        var newPost = {
+            name: name,
+            contact: contact,
+            fileURL: fileURL,
+            desc: desc
+        };
 
-    var newPost = {
-        name: name,
-        contact: contact,
-        fileURL: fileURL,
-        desc: desc
-    };
+        database.ref().push(newPost);
 
-    database.ref().push(newPost);
+        // Clears all of the text-boxes
+        $("#user-name").val("");
+        $("#user-contact").val("");
+        $("#user-file").val("");
+        $("#user-description").val("");
 
-    // Clears all of the text-boxes
-    $("#user-name").val("");
-    $("#user-contact").val("");
-    $("#user-file").val("");
-    $("#user-description").val("");
+        //Hides the form & shows the upload button again
 
-    //Hides the form & shows the upload button again
-
-    $('#formy').hide();
-    $('#upload').show();
+        $('#formy').hide();
+        $('#upload').show();
 
 
-});
+    });
+};
 
 
 
