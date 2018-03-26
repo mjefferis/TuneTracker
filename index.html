@@ -1,9 +1,9 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
     <meta charset="UTF-8">
     <script src="https://www.gstatic.com/firebasejs/4.11.0/firebase.js"></script>
+    <script src="https://cdn.firebase.com/libs/geofire/4.1.2/geofire.min.js"></script>
     <link href='https://fonts.googleapis.com/css?family=VT323' rel='stylesheet'>
     <link href='https://fonts.googleapis.com/css?family=Monofett' rel='stylesheet'>
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
@@ -12,7 +12,6 @@
     <link href='https://api.tiles.mapbox.com/mapbox-gl-js/v0.44.1/mapbox-gl.css' rel='stylesheet' />
     <title>Tune Tracker</title>
 </head>
-
 <body>
     <!--header goes here-->
     <div class="row">
@@ -20,74 +19,60 @@
             <div class="jumbotron">
                 <h1 class="text-center">Tune Tracker</h1>
                 <img class="radar" src="Images/trackxxx.png"></img>
-                <p id="jumbotrontext">What you gonna do when they track your tune?</p>
+                <p id="jumbotrontext">The easy way to find local musicians</p>
                 <div id="coords"></div>
             </div>
         </div>
     </div>
-
     <!--upload button goes here-->
     <div class="row">
         <div class="col-xs-12 col-md-12">
             <button id="upload">Upload</button>
         </div>
     </div>
-
-
     <div class="row">
         <div class="col-xs-12 col-md-12">
             <div id='map'></div>
         </div>
     </div>
-
     <!--this holds the form. It will pop up when the upload button is clicked-->
     <div class="row">
         <div class="col-xs-12 col-md-12">
+              <!--alerts for when user submits form or fills it out incorrectly-->
+              <div id="successform" class="alert alert-success" role="alert">Form Submitted Succesfully</div>
+                
             <form role="form" id="formy">
-
                 <div class="form-group">
+                        <div id="emptyform" class="alert alert-danger" role="alert">Please fill out form completely</div>
+                        <div id="badlink" class="alert alert-danger" role="alert">Not a valid youtube URL</div>
                     <label for="name">Name</label>
                     <input type="text" class="form-control" id="user-name">
                 </div>
-
                 <div class="form-group">
-                    <label for="contact">Contact (#, Email, FB Page)</label>
+                    <label for="contact">E-mail</label>
                     <input type="text" class="form-control" id="user-contact">
                 </div>
-
                 <div class="form-group">
-                    <label for="file">Link</label>
+                    <label for="file">Youtube Link</label>
                     <input type="text" class="form-control" id="user-file">
                 </div>
-
                 <div class="form-group">
                     <label for="file">Description</label>
                     <input type="text" class="form-control" id="user-description">
                 </div>
-
                 
-
                 <button type="submit" class="btn btn-default" id="submit">
                     <i class="fa fa-search"></i> Submit</button>
                 <button type="submit" class="btn btn-default" id="cancel-btn">
                     <i class="fa fa-search"></i> Cancel</button>
-
-                <!--alerts for when user submits form or fills it out incorrectly-->
-                <div id="successform" class="alert alert-success" role="alert">Form Submitted Succesfully</div>
-                <div id="emptyform" class="alert alert-danger" role="alert">Please fill out form completely, dog</div>
-
-
+              
             </form>
         </div>
     </div>
-
     <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/velocity/1.2.3/velocity.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/velocity/1.2.3/velocity.ui.min.js"></script>
     <script src="app.js"></script>
-
-
-
+    <script src="https://www.youtube.com/iframe_api"></script>
 </body>
-
 </html>
